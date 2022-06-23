@@ -4,23 +4,36 @@ using UnityEngine;
 
 public class GoalController : MonoBehaviour
 {
-    [SerializeField] private Collider2D ball;
+    public Collider ball;
     [SerializeField] private ScoreManager manager;
-    [SerializeField] private bool isRight;
-    
+    [SerializeField] private ObjectPooler objectPooler;
+    [SerializeField] private bool isPlayerTwo;
+    [SerializeField] private bool isPlayerThree;
+    [SerializeField] private bool isPlayerFour;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision == ball)
-        {
-            if (isRight)
+        other.gameObject.SetActive(false);
+        
+            if (isPlayerTwo)
             {
-                manager.AddRightScore(1);
+                //Debug.Log("Hit Tembok Player Two");
+                manager.AddPlayerTwoScore(1);
+            }
+            else if (isPlayerThree)
+            {
+                //Debug.Log("Hit Tembok Player Three");
+                manager.AddPlayerThreeScore(1);
+            }
+            else if (isPlayerFour)
+            {
+                //Debug.Log("Hit Tembok Player Four");
+                manager.AddPlayerFourScore(1);
             }
             else
             {
-                manager.AddLeftScore(1);
+                //Debug.Log("Hit Tembok Player One");
+                manager.AddPlayerOneScore(1);
             }
-        }
     }
 }

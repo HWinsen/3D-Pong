@@ -2,51 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallController : MonoBehaviour
+public class BallController : MonoBehaviour, IPooledObject
 {
-    [SerializeField] private Vector2 speed;
-    private Rigidbody2D rig;
-    [SerializeField] private Vector2 resetPosition;
+    [SerializeField] private Vector3 speed;
+    private Rigidbody rig;
+    [SerializeField] private Vector3 resetPosition;
     public string lastPaddleHit;
 
-    private void Awake()
+    public void OnObjectSpawn()
     {
-        RandomBall();
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        rig = GetComponent<Rigidbody2D>();
+        speed = new Vector3(Random.Range(-1f, -0.5f) * transform.position.x, transform.position.y, Random.Range(-1f, -0.5f) * transform.position.z);
+        
+        rig = GetComponent<Rigidbody>();
         rig.velocity = speed;
-    }
-
-    public void RandomBall()
-    {
-        speed = new Vector2(5 * (Random.Range(0, 2) * 2 - 1), Random.Range(-2, 3));
     }
 
     public void ResetBall()
     {
         transform.position = new Vector3(resetPosition.x, resetPosition.y, transform.position.z);
-        
+
         rig.velocity = speed;
     }
 
-    public void ActivatePUSpeedUp(float magnitude)
-    {
-        rig.velocity *= magnitude;
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "PaddleKanan")
-        {
-            lastPaddleHit = "PaddleKanan";
-        }
-        else if (collision.gameObject.tag == "PaddleKiri")
-        {
-            lastPaddleHit = "PaddleKiri";
-        }
-    }
 }
