@@ -334,7 +334,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76364200}
   m_LocalRotation: {x: 0.17753172, y: -0, z: -0, w: 0.9841151}
-  m_LocalPosition: {x: 0, y: 14.81, z: -26.73}
+  m_LocalPosition: {x: 0, y: 16.41, z: -31.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -448,10 +448,10 @@ Transform:
   m_GameObject: {fileID: 79118647}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 13}
-  m_LocalScale: {x: 3, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &79118653
 MonoBehaviour:
@@ -1018,11 +1018,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 339519548}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -15}
-  m_LocalScale: {x: 30, y: 5, z: 0.1}
+  m_LocalPosition: {x: 0, y: 1, z: -14}
+  m_LocalScale: {x: 30, y: 50, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &339519553
 MonoBehaviour:
@@ -1038,7 +1038,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ball: {fileID: 5841488224025204290, guid: cc9c4f0c1a52dbd4dae5e7bb3198e4ba, type: 3}
   manager: {fileID: 633567520}
-  objectPooler: {fileID: 0}
+  objectPooler: {fileID: 486706235}
+  ballSpawnerController: {fileID: 405825400}
   isPlayerTwo: 0
   isPlayerThree: 0
   isPlayerFour: 0
@@ -1280,8 +1281,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 191170fb8b703be43a47e45f77fb61a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectPooler: {fileID: 486706235}
   ball: {fileID: 3112684526648706453, guid: cc9c4f0c1a52dbd4dae5e7bb3198e4ba, type: 3}
   ballSpawnInterval: 2
+  counter: 0
 --- !u!4 &405825401
 Transform:
   m_ObjectHideFlags: 0
@@ -1339,18 +1342,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b40b3fce8dc6a34b8b1f0d646aef3f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gawangPlayerOne: {fileID: 339519553}
-  gawangPlayerTwo: {fileID: 1337373187}
-  gawangPlayerThree: {fileID: 1563819260}
-  gawangPlayerFour: {fileID: 900506288}
-  pools:
-  - key: 0
-    ball:
-      m_AssetGUID: cc9c4f0c1a52dbd4dae5e7bb3198e4ba
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-    size: 5
+  pooledObjects: []
+  ball:
+    m_AssetGUID: cc9c4f0c1a52dbd4dae5e7bb3198e4ba
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  amountToPool: 5
 --- !u!1 &509662916
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,10 +1725,10 @@ Transform:
   m_GameObject: {fileID: 593944230}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &593944236
 MonoBehaviour:
@@ -1783,7 +1781,7 @@ MonoBehaviour:
   playerThreeScore: 0
   playerFourScore: 0
   maxScore: 15
-  ball: {fileID: 760134813944104499, guid: cc9c4f0c1a52dbd4dae5e7bb3198e4ba, type: 3}
+  ball: []
   playerOnePaddle: {fileID: 1222608003}
   playerTwoPaddle: {fileID: 79118647}
   playerThreePaddle: {fileID: 593944230}
@@ -1793,6 +1791,8 @@ MonoBehaviour:
   gawangPlayerThree: {fileID: 1563819256}
   gawangPlayerFour: {fileID: 900506284}
   gameOverCanvas: {fileID: 1988821167}
+  objectPooler: {fileID: 486706233}
+  ballSpawner: {fileID: 405825399}
 --- !u!4 &633567521
 Transform:
   m_ObjectHideFlags: 0
@@ -2433,8 +2433,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 900506283}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -15, y: 1, z: 0}
-  m_LocalScale: {x: 30, y: 5, z: 0.1}
+  m_LocalPosition: {x: -14, y: 1, z: 0}
+  m_LocalScale: {x: 30, y: 50, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 13
@@ -2453,7 +2453,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ball: {fileID: 5841488224025204290, guid: cc9c4f0c1a52dbd4dae5e7bb3198e4ba, type: 3}
   manager: {fileID: 633567520}
-  objectPooler: {fileID: 0}
+  objectPooler: {fileID: 486706235}
+  ballSpawnerController: {fileID: 405825400}
   isPlayerTwo: 0
   isPlayerThree: 0
   isPlayerFour: 1
@@ -3099,7 +3100,7 @@ Transform:
   m_GameObject: {fileID: 1222608003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -13}
-  m_LocalScale: {x: 3, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -3306,11 +3307,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337373182}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 15}
-  m_LocalScale: {x: 30, y: 5, z: 0.1}
+  m_LocalPosition: {x: 0, y: 1, z: 14}
+  m_LocalScale: {x: 30, y: 50, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1337373187
 MonoBehaviour:
@@ -3326,7 +3327,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ball: {fileID: 5841488224025204290, guid: cc9c4f0c1a52dbd4dae5e7bb3198e4ba, type: 3}
   manager: {fileID: 633567520}
-  objectPooler: {fileID: 0}
+  objectPooler: {fileID: 486706235}
+  ballSpawnerController: {fileID: 405825400}
   isPlayerTwo: 1
   isPlayerThree: 0
   isPlayerFour: 0
@@ -3654,10 +3656,10 @@ Transform:
   m_GameObject: {fileID: 1486291928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -13, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1486291934
 MonoBehaviour:
@@ -3766,11 +3768,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1563819255}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 15, y: 1, z: 0}
-  m_LocalScale: {x: 30, y: 5, z: 0.1}
+  m_LocalPosition: {x: 14, y: 1, z: 0}
+  m_LocalScale: {x: 30, y: 50, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &1563819260
 MonoBehaviour:
@@ -3786,7 +3788,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ball: {fileID: 5841488224025204290, guid: cc9c4f0c1a52dbd4dae5e7bb3198e4ba, type: 3}
   manager: {fileID: 633567520}
-  objectPooler: {fileID: 0}
+  objectPooler: {fileID: 486706235}
+  ballSpawnerController: {fileID: 405825400}
   isPlayerTwo: 0
   isPlayerThree: 1
   isPlayerFour: 0

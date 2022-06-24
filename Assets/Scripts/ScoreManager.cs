@@ -12,28 +12,31 @@ public class ScoreManager : MonoBehaviour
     private int deadPlayerCount = 0;
 
     [SerializeField] private int maxScore;
-    [SerializeField] private BallController ball;
+    [SerializeField] private GameObject[] ball;
+
     [SerializeField] private GameObject playerOnePaddle;
     [SerializeField] private GameObject playerTwoPaddle;
     [SerializeField] private GameObject playerThreePaddle;
     [SerializeField] private GameObject playerFourPaddle;
+
     [SerializeField] private BoxCollider gawangPlayerOne;
     [SerializeField] private BoxCollider gawangPlayerTwo;
     [SerializeField] private BoxCollider gawangPlayerThree;
     [SerializeField] private BoxCollider gawangPlayerFour;
+
     [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private GameObject objectPooler;
+    [SerializeField] private GameObject ballSpawner;
 
     public void AddPlayerOneScore(int increment)
     {
         playerOneScore += increment;
-        //ResetGame();
 
         if (playerOneScore >= maxScore)
         {
             deadPlayerCount += 1;
             playerOnePaddle.SetActive(false);
             gawangPlayerOne.isTrigger = false;
-            gawangPlayerOne.gameObject.transform.position = new Vector3(gawangPlayerOne.transform.position.x, gawangPlayerOne.transform.position.y, -13);
             GameOver();
         }
     }
@@ -41,14 +44,12 @@ public class ScoreManager : MonoBehaviour
     public void AddPlayerTwoScore(int increment)
     {
         playerTwoScore += increment;
-        //ResetGame();
 
         if (playerTwoScore >= maxScore)
         {
             deadPlayerCount += 1;
             playerTwoPaddle.SetActive(false);
             gawangPlayerTwo.isTrigger = false;
-            gawangPlayerTwo.gameObject.transform.position = new Vector3(gawangPlayerTwo.transform.position.x, gawangPlayerTwo.transform.position.y, 13);
             GameOver();
         }
     }
@@ -56,14 +57,12 @@ public class ScoreManager : MonoBehaviour
     public void AddPlayerThreeScore(int increment)
     {
         playerThreeScore += increment;
-        //ResetGame();
 
         if (playerThreeScore >= maxScore)
         {
             deadPlayerCount += 1;
             playerThreePaddle.SetActive(false);
             gawangPlayerThree.isTrigger = false;
-            gawangPlayerThree.gameObject.transform.position = new Vector3(13, gawangPlayerThree.transform.position.y, gawangPlayerThree.transform.position.z);
             GameOver();
         }
     }
@@ -78,20 +77,27 @@ public class ScoreManager : MonoBehaviour
             deadPlayerCount += 1;
             playerFourPaddle.SetActive(false);
             gawangPlayerFour.isTrigger = false;
-            gawangPlayerFour.gameObject.transform.position = new Vector3(-13, gawangPlayerFour.transform.position.y, gawangPlayerFour.transform.position.z);
             GameOver();
         }
     }
 
     public void GameOver()
     {
-        if (deadPlayerCount < 2)
+        if (deadPlayerCount < 3)
         {
             return;
         }
         else
         {
+            ballSpawner.SetActive(false);
+            objectPooler.SetActive(false);
+            ball = GameObject.FindGameObjectsWithTag("Ball");
+            foreach (GameObject obj in ball)
+            {
+                obj.SetActive(false);
+            }
             gameOverCanvas.SetActive(true);
+
             if (playerOneScore < 15)
             {
                 gameOverCanvas.GetComponent<GameOverController>().ShowWinner(playerOnePaddle.tag);
@@ -104,27 +110,39 @@ public class ScoreManager : MonoBehaviour
             {
                 gameOverCanvas.GetComponent<GameOverController>().ShowWinner(playerThreePaddle.tag);
             }
-            else
+            else if (playerFourScore < 15)
             {
                 gameOverCanvas.GetComponent<GameOverController>().ShowWinner(playerFourPaddle.tag);
             }
-            deadPlayerCount = 0;
         }
-        
     }
 
     public void ResetGame()
     {
-        gameOverCanvas.SetActive(false);
-        //ball.ResetBall();
-        //ball.RandomBall();
-        playerOnePaddle.GetComponent<PaddleController>().ResetPaddle();
-        playerTwoPaddle.GetComponent<PaddleController>().ResetPaddle();
-        playerThreePaddle.GetComponent<PaddleController>().ResetPaddle();
-        playerFourPaddle.GetComponent<PaddleController>().ResetPaddle();
+        objectPooler.SetActive(true);
+        ballSpawner.SetActive(true);
+
+        deadPlayerCount = 0;
         playerOneScore = 0;
         playerTwoScore = 0;
         playerThreeScore = 0;
         playerFourScore = 0;
+
+        gawangPlayerOne.isTrigger = true;
+        gawangPlayerTwo.isTrigger = true;
+        gawangPlayerThree.isTrigger = true;
+        gawangPlayerFour.isTrigger = true;
+        
+        playerOnePaddle.GetComponent<PaddleController>().ResetPaddle();
+        playerTwoPaddle.GetComponent<PaddleController>().ResetPaddle();
+        playerThreePaddle.GetComponent<PaddleController>().ResetPaddle();
+        playerFourPaddle.GetComponent<PaddleController>().ResetPaddle();
+        
+        playerOnePaddle.SetActive(true);
+        playerTwoPaddle.SetActive(true);
+        playerThreePaddle.SetActive(true);
+        playerFourPaddle.SetActive(true);
+
+        gameOverCanvas.SetActive(false);
     }
 }

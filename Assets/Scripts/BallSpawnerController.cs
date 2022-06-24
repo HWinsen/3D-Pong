@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BallSpawnerController : MonoBehaviour
 {
-    ObjectPooler objectPooler;
-
+    [SerializeField] private ObjectPooler objectPooler;
     [SerializeField] private GameObject ball;
     [SerializeField] private float ballSpawnInterval;
 
-    private int counter = 0;
+    public int counter = 0;
     private List<Vector3> spawnerPositionList;
+    
     private int randomSpawnPosition;
     private float ballSpawnTimer;
     
@@ -19,29 +19,46 @@ public class BallSpawnerController : MonoBehaviour
     {
         ballSpawnTimer = 0f;
         objectPooler = ObjectPooler.Instance;
-        spawnerPositionList = new List<Vector3>();
-        spawnerPositionList.Add(new Vector3(-13, 3, 13));
-        spawnerPositionList.Add(new Vector3(13, 3, 13));
-        spawnerPositionList.Add(new Vector3(-13, 3, -13));
-        spawnerPositionList.Add(new Vector3(13, 3, -13));
-        print(spawnerPositionList);
+        spawnerPositionList = new List<Vector3>
+        {
+            new Vector3(-13, 3, 13),
+            new Vector3(13, 3, 13),
+            new Vector3(-13, 3, -13),
+            new Vector3(13, 3, -13)
+        };
+        
     }
 
     // Update is called once per frame
     private void Update()
     {
-        //if (objectPooler.poolDictionary.Count <= 5)
         if (counter <= 4)
         {
             randomSpawnPosition = Random.Range(0, spawnerPositionList.Count);
-
+            Debug.Log("Counter: " + counter);
             ballSpawnTimer += Time.deltaTime;
 
             if (ballSpawnTimer >= ballSpawnInterval)
             {
-                objectPooler.SpawnFromPool(counter, spawnerPositionList[randomSpawnPosition], Quaternion.identity);
+                //objectPooler.SpawnFromPool(counter, spawnerPositionList[randomSpawnPosition], Quaternion.identity);
+                ball = ObjectPooler.Instance.GetPooledObject();
+                if (ball != null)
+                {
+                    ball.transform.position = spawnerPositionList[randomSpawnPosition];
+                    ball.transform.rotation = Quaternion.identity;
+                    ball.SetActive(true);
+                    if (ball.GetComponent<BallController>().spawned)
+                    {
+                        ball.GetComponent<BallController>().ResetBall();
+                    }
+                }
+                //ball.GetComponent<BallController>().ResetBall();
                 ballSpawnTimer = 0f;
                 counter += 1;
+                if (counter > 4)
+                {
+                    counter = 0;
+                }
             }
         }
     }

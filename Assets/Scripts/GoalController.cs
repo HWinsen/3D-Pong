@@ -7,14 +7,18 @@ public class GoalController : MonoBehaviour
     public Collider ball;
     [SerializeField] private ScoreManager manager;
     [SerializeField] private ObjectPooler objectPooler;
+    [SerializeField] private BallSpawnerController ballSpawnerController;
     [SerializeField] private bool isPlayerTwo;
     [SerializeField] private bool isPlayerThree;
     [SerializeField] private bool isPlayerFour;
 
     private void OnTriggerEnter(Collider other)
     {
-        other.gameObject.SetActive(false);
-        
+        if (other.CompareTag("Ball"))
+        {
+            other.gameObject.SetActive(false);
+            other.gameObject.GetComponent<BallController>().spawned = true;
+
             if (isPlayerTwo)
             {
                 //Debug.Log("Hit Tembok Player Two");
@@ -35,5 +39,6 @@ public class GoalController : MonoBehaviour
                 //Debug.Log("Hit Tembok Player One");
                 manager.AddPlayerOneScore(1);
             }
+        }
     }
 }

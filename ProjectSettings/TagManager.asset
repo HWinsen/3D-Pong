@@ -8,6 +8,7 @@ TagManager:
   - PlayerTwo
   - PlayerThree
   - PlayerFour
+  - Ball
   layers:
   - Default
   - TransparentFX
