@@ -40,19 +40,16 @@ public class BallSpawnerController : MonoBehaviour
 
             if (ballSpawnTimer >= ballSpawnInterval)
             {
-                //objectPooler.SpawnFromPool(counter, spawnerPositionList[randomSpawnPosition], Quaternion.identity);
                 ball = ObjectPooler.Instance.GetPooledObject();
                 if (ball != null)
                 {
-                    ball.transform.position = spawnerPositionList[randomSpawnPosition];
-                    ball.transform.rotation = Quaternion.identity;
+                    ball.transform.SetPositionAndRotation(spawnerPositionList[randomSpawnPosition], Quaternion.identity);
                     ball.SetActive(true);
                     if (ball.GetComponent<BallController>().spawned)
                     {
                         ball.GetComponent<BallController>().ResetBall();
                     }
                 }
-                //ball.GetComponent<BallController>().ResetBall();
                 ballSpawnTimer = 0f;
                 counter += 1;
                 if (counter > 4)

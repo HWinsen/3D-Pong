@@ -98,19 +98,19 @@ public class ScoreManager : MonoBehaviour
             }
             gameOverCanvas.SetActive(true);
 
-            if (playerOneScore < 15)
+            if (playerOneScore < maxScore)
             {
                 gameOverCanvas.GetComponent<GameOverController>().ShowWinner(playerOnePaddle.tag);
             }
-            else if (playerTwoScore < 15)
+            else if (playerTwoScore < maxScore)
             {
                 gameOverCanvas.GetComponent<GameOverController>().ShowWinner(playerTwoPaddle.tag);
             }
-            else if (playerThreeScore < 15)
+            else if (playerThreeScore < maxScore)
             {
                 gameOverCanvas.GetComponent<GameOverController>().ShowWinner(playerThreePaddle.tag);
             }
-            else if (playerFourScore < 15)
+            else if (playerFourScore < maxScore)
             {
                 gameOverCanvas.GetComponent<GameOverController>().ShowWinner(playerFourPaddle.tag);
             }
